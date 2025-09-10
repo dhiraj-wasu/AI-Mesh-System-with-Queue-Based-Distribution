@@ -1,27 +1,27 @@
-⚡ AI Mesh: Distributed Task Processing with FastAPI + Redis
+AI Mesh: Distributed Task Processing with FastAPI + Redis
 
 A fault-tolerant, auto-scaling, AI-powered task orchestration system — built with FastAPI, Redis, Docker, and AI workers.
 Handles text and image tasks with retries, timeouts, and dynamic scaling, inspired by production-grade MLOps pipelines.
 
-🌟 Features
+Features
 
-🔄 Redis-backed Queues for reliable task distribution (text_queue, image_queue)
+1.Redis-backed Queues for reliable task distribution (text_queue, image_queue)
 
-🧵 Multi-worker Architecture (text & image workers run independently)
+2.Multi-worker Architecture (text & image workers run independently)
 
-🕒 Fault Tolerance with retries (3x), timeouts, and dead-letter queue
+3.Fault Tolerance with retries (3x), timeouts, and dead-letter queue
 
-📡 Worker Health Monitoring via heartbeat + Redis TTL
+4.Worker Health Monitoring via heartbeat + Redis TTL
 
-⚖️ Auto-scaling with load-aware worker scaling (Docker Compose/K8s)
+5.Auto-scaling with load-aware worker scaling (Docker Compose/K8s)
 
-🏷️ Task Complexity Tagging (small vs large) for smarter scaling
+6.Task Complexity Tagging (small vs large) for smarter scaling
 
-📊 Result Tracking with Redis hashes (status, retries, timestamps, result)
+7.Result Tracking with Redis hashes (status, retries, timestamps, result)
 
-🐳 Dockerized for easy deployment & scaling across environments
+8.Dockerized for easy deployment & scaling across environments
 
-🛠️ Tech Stack
+Tech Stack
 
 FastAPI → REST API for task submission & status
 
@@ -50,7 +50,7 @@ ai-mesh/
 │── Dockerfile            # Base image
 │── README.md             # This file 🚀
 
-🚀 Getting Started
+Getting Started
 1. Clone the repo
 git clone https://github.com/yourusername/ai-mesh.git
 cd ai-mesh
@@ -88,7 +88,7 @@ Example response:
   "result": {"label": "POSITIVE", "score": 0.99}
 }
 
-⚖️ Auto-Scaling Logic
+Auto-Scaling Logic
 
 Every 10s, scaler checks queue length & task complexity
 
@@ -98,14 +98,14 @@ Large tasks weigh more → trigger faster scaling
 
 Idle workers are scaled down after 3 empty cycles
 
-📊 Example Workflows
+Example Workflows
 
 ✅ Text Analysis → Sentiment analysis using Hugging Face Transformers
 ✅ Image Processing → Face detection using OpenCV
 ✅ Fault Tolerance → Retries up to 3x, then sent to dead-letter queue
 ✅ Auto-Scaling → Spin up more workers if queues get heavy
 
-🔮 Roadmap
+ Roadmap
 
  Add Prometheus + Grafana monitoring
 
@@ -117,9 +117,9 @@ Idle workers are scaled down after 3 empty cycles
 
  Deploy on Kubernetes with HPA
 
-💡 Use Cases
+Use Cases
 
-⚡ AI Inference Gateway – Centralized API for ML models
+AI Inference Gateway – Centralized API for ML models
 
 🖼️ Batch Media Processing – Scale image/video processing pipelines
 

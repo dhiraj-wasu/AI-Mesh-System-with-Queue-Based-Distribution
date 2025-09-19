@@ -13,7 +13,7 @@ Features
 
 4.Worker Health Monitoring via heartbeat + Redis TTL
 
-5.Auto-scaling with load-aware worker scaling (Docker Compose/K8s)
+5.Auto-scaling with load-aware worker scaling 
 
 6.Task Complexity Tagging (small vs large) for smarter scaling
 

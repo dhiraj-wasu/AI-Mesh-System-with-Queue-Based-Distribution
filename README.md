@@ -1,132 +1,158 @@
-AI Mesh: Distributed Task Processing with FastAPI + Redis
 
-A fault-tolerant, auto-scaling, AI-powered task orchestration system — built with FastAPI, Redis, Docker, and AI workers.
-Handles text and image tasks with retries, timeouts, and dynamic scaling, inspired by production-grade MLOps pipelines.
 
-Features
+# **AI Mesh: Distributed Task Processing with FastAPI + Redis**
 
-1.Redis-backed Queues for reliable task distribution (text_queue, image_queue)
+A fault-tolerant, auto-scaling, AI-powered task orchestration system built with **FastAPI**, **Redis**, **Docker**, and AI workers.
 
-2.Multi-worker Architecture (text & image workers run independently)
+Inspired by production-grade **MLOps pipelines**, this system handles text and image tasks with retries, timeouts, worker health monitoring, and dynamic scaling.
 
-3.Fault Tolerance with retries (3x), timeouts, and dead-letter queue
+---
 
-4.Worker Health Monitoring via heartbeat + Redis TTL
+## 🚀 Features
 
-5.Auto-scaling with load-aware worker scaling 
+* **Redis-backed Queues** for reliable task distribution (`text_queue`, `image_queue`)
+* **Multi-worker Architecture** (text & image workers run independently)
+* **Fault Tolerance** with retries (3×), timeouts, and dead-letter queue
+* **Worker Health Monitoring** via heartbeat + Redis TTL
+* **Auto-scaling** with load-aware worker scaling
+* **Task Complexity Tagging** (small vs large) for smarter scaling
+* **Result Tracking** with Redis hashes (status, retries, timestamps, result)
+* **Dockerized Deployment** for easy scaling across environments
 
-6.Task Complexity Tagging (small vs large) for smarter scaling
+---
 
-7.Result Tracking with Redis hashes (status, retries, timestamps, result)
+## 🧱 Tech Stack
 
-8.Dockerized for easy deployment & scaling across environments
+* **FastAPI** → REST API for task submission & status
+* **Redis** → Queue broker + task store + worker monitoring
+* **Docker Compose** → Multi-container orchestration
+* **Transformers (Hugging Face)** → Text sentiment analysis
+* **OpenCV** → Image face detection
+* **Python Threading** → Concurrent workers per container
 
-Tech Stack
+---
 
-FastAPI → REST API for task submission & status
+## 📂 Project Structure
 
-Redis → Queue + task store + worker monitoring
-
-Docker Compose → Spin up API + Redis + workers
-
-Transformers (Hugging Face) → Text sentiment analysis
-
-OpenCV → Image face detection
-
-Python Threading → Concurrent workers per container
-
-📂 Project Structure
+```
 ai-mesh/
 │── app/
-│   ├── main.py           # FastAPI API endpoints
-│   ├── redis_queue.py    # Redis connection
-│   ├── enqueue.py        # Task enqueue logic + complexity tagging
+│   ├── main.py          # FastAPI API endpoints
+│   ├── redis_queue.py   # Redis connection
+│   ├── enqueue.py       # Task enqueue logic + complexity tagging
+│
 │── workers/
-│   ├── text_worker.py    # Processes text tasks
-│   ├── image_worker.py   # Processes image tasks
+│   ├── text_worker.py   # Processes text tasks
+│   ├── image_worker.py  # Processes image tasks
+│
 │── scaler/
-│   ├── auto_scale.py     # Dynamic worker scaling logic
-│── docker-compose.yml    # Multi-container setup
-│── Dockerfile            # Base image
-│── README.md             # This file 🚀
+│   ├── auto_scale.py    # Dynamic worker scaling logic
+│
+│── docker-compose.yml   # Multi-container setup
+│── Dockerfile           # Base image
+│── README.md            # Documentation
+```
 
-Getting Started
-1. Clone the repo
+---
+
+## ⚡ Getting Started
+
+### Clone the Repository
+
+```bash
 git clone https://github.com/yourusername/ai-mesh.git
 cd ai-mesh
+```
 
-2. Start with Docker Compose
+### Start the System
+
+```bash
 docker-compose up --build
-
+```
 
 This starts:
 
-FastAPI API (on port 8000)
+* FastAPI API (port **8000**)
+* Redis (queue broker)
+* Workers (text + image processors)
 
-Redis (as queue broker)
+---
 
-Workers (text + image processors)
+## 📬 Submit a Task
 
-3. Submit a Task
+```bash
 curl -X POST "http://localhost:8000/submit" \
-     -H "Content-Type: application/json" \
-     -d '{"type": "text", "data": "I love this project!"}'
+-H "Content-Type: application/json" \
+-d '{"type": "text", "data": "I love this project!"}'
+```
 
+**Response**
 
-Response:
-
+```json
 {"task_id": "123e4567-e89b-12d3-a456-426614174000"}
+```
 
-4. Check Task Status
+---
+
+## 🔎 Check Task Status
+
+```bash
 curl "http://localhost:8000/status/123e4567-e89b-12d3-a456-426614174000"
+```
 
+**Example Response**
 
-Example response:
-
+```json
 {
   "status": "done",
   "result": {"label": "POSITIVE", "score": 0.99}
 }
+```
 
-Auto-Scaling Logic
+---
 
-Every 10s, scaler checks queue length & task complexity
+## 📈 Auto-Scaling Logic
 
-Dynamically scales workers between 1 → 8
+Every **10 seconds**, the scaler:
 
-Large tasks weigh more → trigger faster scaling
+* Checks queue length & task complexity
+* Dynamically scales workers between **1 → 8**
+* Large tasks weigh more → trigger faster scaling
+* Idle workers scale down after **3 empty cycles**
 
-Idle workers are scaled down after 3 empty cycles
+---
 
-Example Workflows
+## ✅ Example Workflows
 
-✅ Text Analysis → Sentiment analysis using Hugging Face Transformers
-✅ Image Processing → Face detection using OpenCV
-✅ Fault Tolerance → Retries up to 3x, then sent to dead-letter queue
-✅ Auto-Scaling → Spin up more workers if queues get heavy
+* **Text Analysis** → Sentiment analysis using Hugging Face Transformers
+* **Image Processing** → Face detection using OpenCV
+* **Fault Tolerance** → Retries up to 3× → Dead-letter queue fallback
+* **Auto-Scaling** → Workers scale based on system load
 
- Roadmap
+---
 
- Add Prometheus + Grafana monitoring
+## 🛣️ Roadmap
 
- Support priority queues (high, medium, low)
+* Add Prometheus + Grafana monitoring
+* Support priority queues (high / medium / low)
+* Add more AI models (summarization, OCR, speech-to-text)
+* Implement DAG task dependencies
+* Deploy on Kubernetes with HPA
 
- Add more AI models (summarization, OCR, speech-to-text)
+---
 
- Implement DAG task dependencies
+## 💡 Use Cases
 
- Deploy on Kubernetes with HPA
+* **AI Inference Gateway** – Centralized API for ML models
+* **Batch Media Processing** – Scalable image/video pipelines
+* **NLP Workflows** – Classification, sentiment, summarization
+* **Multi-tenant SaaS** – Queue isolation & quotas
 
-Use Cases
+---
 
-AI Inference Gateway – Centralized API for ML models
+## 🏆 Why *"AI Mesh"*?
 
-🖼️ Batch Media Processing – Scale image/video processing pipelines
+Because it behaves like a mesh of AI workers — dynamically scaling, self-healing, and collaboratively processing tasks in real time — similar to real-world production AI systems.
 
-📄 NLP Workflows – Text classification, sentiment, summarization
+---
 
-🧑‍🤝‍🧑 Multi-tenant SaaS – Queue isolation per client with quotas
-
-🏆 Why "AI Mesh"?
-
-Because it’s like a mesh of AI workers dynamically scaling, self-healing, and collaborating to process tasks in real-time — just like production AI systems.
